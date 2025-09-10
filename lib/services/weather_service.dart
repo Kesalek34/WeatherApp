@@ -20,5 +20,24 @@ class WaetherService {
     }
 
    }
+Future<String> getCurrentCity() async {
+
+LocatePermission() persmision = await Geolocator.checkPermission();  
+
+if(permission == LocationPermission.denied){
+    persmision = await Geolocator.requestPermission();
+}   
+
+Position position = await Geolocator.getCurrentPosition(
+    desiredAccuracy: LocationAccuracy.high);
+    
+
+List<Placement> placemarks = await placemarkCoordinates{position.latitude, position.longitude};
+   
+   String? city = placemarks[0].locality;
+   return city ?? "";
+
+
+   }
 
 }
