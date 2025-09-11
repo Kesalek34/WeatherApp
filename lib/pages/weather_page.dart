@@ -13,8 +13,8 @@ class _WeatherPageState extends State<WeatherPage> {
  
 
  //api key
- final weatherService = WeatherService(apiKey);
- waether? _weather;
+ final weatherService = WeatherService('MY API KEY');
+ weather? _weather;
 
 //fetching weather
 fetchWeather() async{ 
@@ -26,9 +26,9 @@ fetchWeather() async{
     //fetch weather for the city
     try{
         final weather = await weatherService.getWeather(cityName);
-        setState{() {
+        setState(() {
          weather = weather;
-        }};
+        });
 
 
 }
@@ -40,5 +40,29 @@ catch(e){
 
 @override
 void initState(){
+    super.initState();
 
+   //fetch weather on startup
+   fetchWeather();
+
+}
+
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold(
+        body:Center(
+            
+            child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:[
+              Text(weather.cityName ?? "Loading city")
+
+              Text('${weather?.temperature?.round()}.°C')
+
+            ]
+            
+            )
+        )
+        );
+    }
 }
